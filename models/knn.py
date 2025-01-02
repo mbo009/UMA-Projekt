@@ -1,7 +1,8 @@
 from sklearn.neighbors import KNeighborsClassifier
+from models.model import Model
 
 
-class KNN:
+class KNN(Model):
     def __init__(self, n_neighbors=5):
         self.model = KNeighborsClassifier(n_neighbors=n_neighbors)
 
@@ -9,4 +10,4 @@ class KNN:
         self.model.fit(X, y)
 
     def predict(self, X):
-        return self.model.predict(X)
+        return self.model.predict_proba(X)[:, 1]
