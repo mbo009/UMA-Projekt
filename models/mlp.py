@@ -29,8 +29,6 @@ class MLP(nn.Module):
             loss.backward()
             self.optimizer.step()
 
-            print(f"Loss: {loss.item()}")
-
 
 if __name__ == "__main__":
     model = MLP()
