@@ -7,7 +7,7 @@ class RandomForest(Model):
         self.model = RandomForestClassifier(n_estimators=n_estimators)
 
     def train(self, X, y):
-        self.model.fit(X, y)
+        self.model.fit(X, y.ravel())
 
     def predict(self, X):
         return self.model.predict_proba(X)[:, 1]

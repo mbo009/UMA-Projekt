@@ -7,7 +7,7 @@ class KNN(Model):
         self.model = KNeighborsClassifier(n_neighbors=n_neighbors)
 
     def train(self, X, y):
-        self.model.fit(X, y)
+        self.model.fit(X, y.ravel())
 
     def predict(self, X):
         return self.model.predict_proba(X)[:, 1]

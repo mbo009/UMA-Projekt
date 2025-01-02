@@ -7,11 +7,11 @@ from models.model import Model
 class MLP(Model):
     def __init__(
         self,
+        train_epochs=100,
         input_size=30,
         hidden_size1=64,
         hidden_size2=32,
         output_size=1,
-        train_epochs=100,
     ):
         super(MLP, self).__init__()
         self.model = nn.Sequential(
