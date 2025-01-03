@@ -43,10 +43,14 @@ def roc_curve(predictions, labels):
         tpr.append(true_positive_rate(y_pred, labels))
         fpr.append(false_positive_rate(y_pred, labels))
 
-    return tpr, fpr
+    tpr = np.array(tpr)
+    fpr = np.array(fpr)
+
+    sorted_indices = np.argsort(fpr)
+    return tpr[sorted_indices], fpr[sorted_indices]
 
 
 def auc_roc_score(predictions, labels):
-    fpr = false_positive_rate(predictions, labels)
-    tpr = true_positive_rate(predictions, labels)
-    return 0.5 * (fpr + tpr)
+    tpr, fpr = roc_curve(predictions, labels)
+    auc = np.trapz(tpr, fpr)
+    return auc

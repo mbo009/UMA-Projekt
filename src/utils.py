@@ -59,7 +59,7 @@ def measure_times(model_class, params, X_train, y_train, X_test, n_times=50):
     predict_times = []
     for param in params:
         tmp_train_times, tmp_predict_times = [], []
-        for _ in n_times:
+        for _ in range(n_times):
             model = model_class(param[0])
             start_time = perf_counter()
             model.train(X_train, y_train)
@@ -74,10 +74,10 @@ def measure_times(model_class, params, X_train, y_train, X_test, n_times=50):
     return train_times, predict_times
 
 
-def plot_roc(tpr, fpr):
-    plt.plot(fpr[0], tpr[0], label="MLP", color="green")
-    plt.plot(fpr[1], tpr[1], label="KNN", color="red")
-    plt.plot(fpr[2], tpr[2], label="RF", color="blue")
+def plot_roc(tpr, fpr, auc_scores):
+    plt.plot(fpr[0], tpr[0], label=f"MLP AUC={auc_scores[0]}", color="green")
+    plt.plot(fpr[1], tpr[1], label=f"KNN AUC={auc_scores[1]}", color="red")
+    plt.plot(fpr[2], tpr[2], label=f"RF AUC={auc_scores[2]}", color="blue")
     plt.xlabel("False Positive Rate")
     plt.ylabel("True Positive Rate")
     plt.legend(loc="lower right")
@@ -88,15 +88,19 @@ def plot_roc(tpr, fpr):
 
 def plot_roc_curve(model_classes, params, X_train, y_train, X_test, y_test):
     tpr, fpr = [0, 0, 0], [0, 0, 0]
+    auc_roc_scores = [0, 0, 0]
     for i, (model_class, param) in enumerate(zip(model_classes, params)):
-        tpr[i], fpr[i] = generate_roc_data(
-            model_class, params, X_train, y_train, X_test, y_test
+        (tmp_tpr, tmp_fpr), auc_roc_score = generate_roc_data(
+            model_class, param, X_train, y_train, X_test, y_test
         )
-    plot_roc_curve(tpr, fpr)
+        tpr[i] = tmp_tpr
+        fpr[i] = tmp_fpr
+        auc_roc_scores[i] = auc_roc_score
+    plot_roc(tpr, fpr, auc_roc_scores)
 
 
 def generate_roc_data(model_class, param, X_train, y_train, X_test, y_test):
     model = model_class(param)
     model.train(X_train, y_train)
     predictions = model.predict(X_test)
-    return roc_curve(predictions, y_test)
+    return roc_curve(predictions, y_test), auc_roc_score(predictions, y_test)
