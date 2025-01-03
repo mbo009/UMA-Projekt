@@ -1,5 +1,5 @@
 # UMA-Projekt
-Sprawozdanie końcowe wygenerowane z jupyter notebook znajduje się w pliku `/docs/report.pdf`.
+Miłosz Cieśla, Filip Ryniewicz
 
 ## Struktura projektu:
 - `/docs` zawiera dokumentację
