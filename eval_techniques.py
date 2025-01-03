@@ -46,18 +46,6 @@ def roc_curve(predictions, labels):
     return tpr, fpr
 
 
-def plot_roc_curve(tpr, fpr):
-    plt.plot(fpr[0], tpr[0], label="MLP", color="green")
-    plt.plot(fpr[1], tpr[1], label="KNN", color="red")
-    plt.plot(fpr[2], tpr[2], label="RF", color="blue")
-    plt.xlabel("False Positive Rate")
-    plt.ylabel("True Positive Rate")
-    plt.legend(loc="lower right")
-    plt.title("Krzywe ROC")
-    plt.grid()
-    plt.show()
-
-
 def auc_roc_score(predictions, labels):
     fpr = false_positive_rate(predictions, labels)
     tpr = true_positive_rate(predictions, labels)
